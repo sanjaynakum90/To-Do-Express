@@ -1,100 +1,102 @@
+
 import express from "express";
-import HttpError from "./middleware/httpError.js";
+import { fileURLToPath } from "url";
+import path from "path";
+import HttpError from "./middleware/HttpError.js";
 
 const app = express();
+const port = 5001;
 
+// Set EJS as the view engine
+app.set("view engine", "ejs");
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+const __fileName = fileURLToPath(import.meta.url);
+const __dirName = path.dirname(__fileName);
 
-// Home Route
+console.log("filename", __fileName);
+console.log("folder", __dirName);
+app.use(express.static(path.join(__dirName, "public")))
 
-app.get("/", (req, res) => {
-
-  res.status(200).json({ message: "Welcome to To-Do List API 🚀" });
-
-});
-
-let todoList = [
-  {
-    id: 1,
-    title: "Morning Workout",
-    description: "Do 20 minutes of cardio and stretching"
-  },
-  {
-    id: 2,
-    title: "Read a Book",
-    description: "Read 30 pages of a self-improvement book"
-  },
-  {
-    id: 3,
-    title: "Practice Coding",
-    description: "Solve 2 JavaScript problems on arrays"
-  },
-  {
-    id: 4,
-    title: "Grocery Shopping",
-    description: "Buy vegetables, fruits, and milk"
-  },
-  {
-    id: 5,
-    title: "Clean Workspace",
-    description: "Organize desk and remove unnecessary items"
-  }
+let tasks = [
+    { id: 1, title: "Learn Node.js", completed: false },
+    { id: 2, title: "Master Express", completed: true }
 ];
 
-// Get All todos
+// Home Page
+app.get("/", (req, res) => {
+    const completed = tasks.filter(t => t.completed).length;
+    const uncompleted = tasks.length - completed;
 
-app.get("/todos", (req, res) => {
+    res.render("index", { tasks, completed, uncompleted });
+});
 
-  res.status(200).json({
-    message: "To-do list retrieved successfully",
-    todoList,
-  });
+// Add Task
+app.post("/add", (req, res) => {
+    const newTask = {
+        id: new Date().getTime(),
+        title: req.body.task,
+        completed: false
+    };
+
+    tasks.push(newTask);
+    res.redirect("/");
 
 });
 
-// GET single todo by ID
+// Toggle Complete
+app.post("/toggle/:id", (req, res) => {
+    const id = Number(req.params.id);
 
-app.get("/todos/:id", (req, res, next) => {
+    tasks = tasks.map(task => task.id === id
+        ? { ...task, completed: !task.completed } : task);
 
-  const id = Number(req.params.id);
-
-  const todo = todoList.find((t) => t.id === id);
-
-  if (!todo) {
-    return res.status(404).json("To-do item not found");
-  }
-
-  res.status(200).json(todo);
-
+    res.redirect("/");
 });
 
+// Delete Task
+app.post("/delete/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const index = tasks.findIndex((t) => t.id === id);
+    if (index === -1) {
+        return res.status(404);
+    }
+    tasks.splice(index, 1);
+    res.redirect("/");
+});
 
+// Edit Task
+app.post("/edit/:id", (req, res) => {
+    const id = Number(req.params.id);
+    const updatedText = req.body.updatedTask;
 
-
-// undefined routes handling
+    if (!updatedText) {
+        return next(new HttpError("Updated task cannot be empty", 400));
+    }
+    const task = tasks.find(t => t.id === id);
+    if (!task) {
+        return next(new HttpError("Task not found", 404));
+    }
+    task.title = updatedText;
+    res.redirect("/");
+});
 
 app.use((req, res, next) => {
-
-  next(new HttpError("Route not found", 404));
-
+    next(new HttpError("requested route not found", 404));
 });
 
 // centralize error handling
 
-app.use((error,req,res,next) => {
-
-    res.status(error.statuscode || 500).json({
-        message:error.message || "Internal Server Error"
+app.use((error, req, res, next) => {
+    if (req.headersSent) {
+        next(error);
+    }
+    res.status(error.statusCode || 500).json({
+        message: error.message || "internal server error please try again later",
     });
-
 });
-
-// server
-
-const port=5000;
 
 app.listen(port, () => {
-  console.log("server listening on port", port);
+    console.log("server running on port", port);
 });
-
