@@ -1,27 +1,19 @@
 {
-  "name": "to-do-list",
+  "name": "express-to-do-list-project",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "dev": "node --watch app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vaishali2801/To-Do-List.git"
+    "dev" : "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vaishali2801/To-Do-List/issues"
-  },
-  "homepage": "https://github.com/vaishali2801/To-Do-List#readme",
   "dependencies": {
-    "ejs": "^4.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "nodemon": "^3.1.11"
   }
 }
