@@ -1,112 +1,170 @@
-📌 To-Do List App (Express + EJS)
+# ✅ To-Do List API (Node.js + Express)
 
-A simple and user-friendly To-Do List web application built using Node.js, Express.js, and EJS.
-This project demonstrates CRUD operations, server-side rendering, and basic MVC concepts.
+This is a simple **RESTful To-Do List API** built using **Node.js** and **Express.js**.  
+It supports full **CRUD operations** (Create, Read, Update, Delete) and demonstrates **centralized error handling** using a custom `HttpError` class.
 
-🚀 Features
+---
 
-Add new tasks
+## 🚀 Features
 
-Edit existing tasks
+- 🏠 Home route with welcome message
+- 📋 Get all to-do items
+- 🔍 Get a single to-do by ID
+- ➕ Create a new to-do
+- ✏️ Update a to-do (PATCH)
+- 🔁 Replace a to-do (PUT)
+- ❌ Delete a to-do
+- ⚠️ Custom error handling middleware
+- 🧠 Clean and beginner-friendly code
 
-Delete tasks
+---
 
-Mark tasks as completed / uncompleted
+## 🛠️ Tech Stack
 
-Display completed & uncompleted task counts
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **API Style:** REST
+- **Data Storage:** In-memory array (for learning)
+- **Testing Tool:** Postman / Thunder Client
 
-Clean and responsive UI
+---
 
-🛠️ Tech Stack
+## 📁 Project Structure
 
-Node.js
-
-Express.js
-
-EJS (Embedded JavaScript Templates)
-
-HTML5
-
-CSS3
-
-📂 Project Structure
-todo-ejs-app/
-│
-├── app.js
-├── package.json
-│
-├── views/
-│   ├── index.ejs
-│   └── error.ejs
-│
-├── middleware/
-│   └── HttpError.js
-│
-└── public/
-    └── style.css
-
-⚙️ Installation & Setup
-
-Clone the repository
-
-git clone https://github.com/your-username/todo-ejs-app.git
+todo-api/<br>
+│<br>
+├── middleware/<br>
+│   └── httpError.js<br>
+│<br>
+├── app.js<br>
+├── package.json<br>
+└── README.md<br>
 
 
-Navigate to project folder
-
-cd todo-ejs-app
+---
 
 
-Install dependencies
+## 🧪 Postman API Testing
+
+### 📸 Screenshots
+
+**Home Route**  
+
+<img src="screenshots/home-route.png" alt="Home Route" width="700" />
+
+**Undefined Route Handling** 
+
+<img src="screenshots/undefined-route.png" alt="Undefined Route" width="700" />
+
+**Get All Todos**  
+
+<img src="screenshots/get-all-todos.png" alt="Get All Todos" width="700" />
+
+**Get Todo by ID**
+
+<img src="screenshots/get-todo-by-id.png" alt="Get Todo by ID" width="700" />
+
+**Create Todo** 
+
+<img src="screenshots/create.png" alt="Create Todo" width="700" />
+
+**Update Todo (PATCH)** 
+
+<img src="screenshots/update-todo-patch.png" alt="Update Todo PATCH" width="700" />
+
+**Update Todo (PUT)** 
+
+<img src="screenshots/update-todo-put.png" alt="Update Todo PUT" width="700" />
+
+**Delete Todo**  
+
+<img src="screenshots/delete-todo.png" alt="Delete Todo" width="700" />
+
+---
+
+
+
+⚙️ Installation & Run
+
+1. Clone the repository
+
+git clone https://github.com/your-username/todo-api.git
+
+
+2. Go to project folder
+
+cd todo-api
+
+
+3. Install dependencies
 
 npm install
 
 
-Start server
+4. Start the server
 
-node app.js
-
-
-Open browser
-
-http://localhost:5001
-
-🧪 How It Works
-
-Tasks are stored in a temporary in-memory array
-
-Express handles routing & logic
-
-EJS renders dynamic HTML pages
-
-Forms submit data using POST requests
-
-📸 Screenshots
-<img width="1280" height="681" alt="Screenshot 2026-02-10 at 11 52 07 PM" src="https://github.com/user-attachments/assets/791ea8a3-46ff-47e5-b05f-70e488b16d98" />
-
-🔮 Future Improvements
-
-MongoDB database integration
-
-User authentication
-
-Task categories
-
-Due dates & priorities
-
-REST API version
-
-🤝 Contributing
-
-Contributions are welcome!
-Feel free to fork the project and submit a pull request.
+npm run dev
 
 
-👩‍💻 Author
+5. Server will run on
 
-Vaishali Chauhan
-Frontend & Backend Learner
+http://localhost:5000
 
-GitHub: https://github.com/vaishali2801
+---
 
-LinkedIn: https://www.linkedin.com/in/vaishalich2801
+
+
+---
+
+## 📌 API Endpoints
+
+### 🏠 Home
+GET /
+
+
+### 📋 Get All Todos
+GET /todos
+
+
+### 🔍 Get Todo by ID
+GET /todos/:id
+
+
+### ➕ Create Todo
+POST /todos
+
+
+**Body (JSON):**
+{
+  "title": "Learn Express",
+  "description": "Understand routing and middleware"
+}
+
+✏️ Update Todo (PATCH)
+
+PATCH /todos/:id
+
+Body (JSON):
+
+{
+  "title": "Updated title",
+  "description": "Updated description"
+}
+
+🔁 Replace Todo (PUT)
+
+PUT /todos/:id
+
+Body (JSON):
+
+{
+  "title": "New title",
+  "description": "New description"
+}
+
+❌ Delete Todo
+
+DELETE /todos/:id
+
+
+
