@@ -1,207 +1,150 @@
 import express from "express";
-
-import HttpError from "./middleware/httpError.js";
+import HttpError from "./middleware/HttpError.js";
 
 const app = express();
 
 app.use(express.json());
 
-
-// Home Route
-
 app.get("/", (req, res) => {
-
-  res.status(200).json({ message: "Welcome to To-Do List API 🚀" });
-
+  res.status(200).json("hello from server");
 });
 
-let todoList = [
+let taskList = [
   {
     id: 1,
-    title: "Morning Workout",
-    description: "Do 20 minutes of cardio and stretching"
+    task: "learn",
+    description: "you have to learn new things daily",
   },
   {
     id: 2,
-    title: "Read a Book",
-    description: "Read 30 pages of a self-improvement book"
+    task: "practice",
+    description: "you have to practice daily",
   },
-  {
-    id: 3,
-    title: "Practice Coding",
-    description: "Solve 2 JavaScript problems on arrays"
-  },
-  {
-    id: 4,
-    title: "Grocery Shopping",
-    description: "Buy vegetables, fruits, and milk"
-  },
-  {
-    id: 5,
-    title: "Clean Workspace",
-    description: "Organize desk and remove unnecessary items"
-  }
 ];
 
-// Get All todos
-
-app.get("/todos", (req, res) => {
-
-  res.status(200).json({
-    message: "To-do list retrieved successfully",
-    todoList,
-  });
-
-});
-
-// GET single todo by ID
-
-app.get("/todos/:id", (req, res, next) => {
-
-  const id = Number(req.params.id);
-
-  const todo = todoList.find((t) => t.id === id);
-
-  if (!todo) {
-    return res.status(404).json("To-do item not found");
+app.get("/taskList", (req, res) => {
+  if (taskList.length <= 0) {
+    return res.status(200).json("task list is empty");
   }
 
-  res.status(200).json(todo);
-
+  res
+    .status(200)
+    .json({ message: "task list data retrieved successfully", taskList });
 });
 
+// now getting data using specific id
 
-// CREATE new todo
+app.get("/taskList/:id", (req, res) => {
+  const id = Number(req.params.id);
 
-app.post("/todos", (req, res, next) => {
+  const task = taskList.find((t) => t.id === id);
 
-  const { title, description } = req.body;
+  if (!task) {
+    return res.status(404).json("task data with this id not found ");
+  }
 
-  const newTodo = {
+  res.status(200).json(task);
+});
+
+// adding task data
+
+app.post("/addTask", (req, res) => {
+  const { task, description } = req.body;
+
+  const newTaskData = {
     id: new Date().getTime(),
-    title,
-    description,
-  };
-
-  todoList.push(newTodo);
-
-  res.status(201).json({
-    message: "To-do item created successfully",
-    newTodo,
-  });
-
-});
-
-
-// UPDATE todo (PATCH)
-
-app.patch("/todos/:id", (req, res) => {
-
-  const id = Number(req.params.id);
-
-  const { task, description } = req.body;
-
-  const todo = todoList.find((t) => t.id === id);
-
-  if (!todo) {
-    return res.status(404).json({
-      message: "To-do item not found",
-    });
-  }
-
-  if (task !== undefined) {
-  todo.task = task;
-}
-
-  if (description !== undefined) {
-  todo.description = description;
-}
-
-  res.status(200).json({ 
-     message: "To-do item updated successfully",
-    todo,
-  });
-  
-});
-
-
-// REPLACE todo (PUT)
-
-app.put("/todos/:id", (req, res) => {
-
-  const id = Number(req.params.id);
-
-  const { task, description } = req.body;
-
-  const index = todoList.findIndex((t) => t.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-      message: "To-do item not found",
-    });
-  }
-
-  todoList[index] = {
-    ...todoList[index],
     task,
     description,
   };
 
-  res.status(200).json({
-    message: "To-do item updated successfully",
-    todo: todoList[index],
-  });
+  taskList.push(newTaskData);
 
+  res.status(201).json({ message: "new task added", newTaskData });
 });
 
+// updating partial data of task list
 
+app.patch("/updateTask/:id", (req, res) => {
+  
+  const id = Number(req.params.id);
 
-// DELETE todo
+  const updateTask = taskList.find((t) => t.id === id);
 
-app.delete("/todos/:id", (req, res, next) => {
-
-  const id = parseInt(req.params.id);
-
-  const index = todoList.findIndex((t) => t.id === id);
-
-  if (index === -1) {
-    return res.status(404).json({
-      message: "To-do item not found",
-    });
+  if (!updateTask) {
+    return res.status(404).json("task not found");
   }
 
-  todoList.splice(index, 1);
+  const { task, description } = req.body;
 
-  res.status(200).json({
-    message: "To-do item deleted successfully"
-  });
-  
+  if (task) {
+    updateTask.task = task;
+  }
+
+  if (description) {
+    updateTask.description = description;
+  }
+
+  res.status(200).json({ message: "task updated successfully", updateTask });
 });
 
+// updating whole data using put method
 
-// undefined routes handling
+app.put("/updateTasks/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  console.log("id", id);
+
+  const index = taskList.findIndex((t) => t.id === id);
+
+  if (!index) {
+    return res.status(404).json("task data not found with this id");
+  }
+
+  const { task, description } = req.body;
+
+  taskList[index] = { ...taskList[index], task, description };
+
+  res
+    .status(200)
+    .json({ message: "task data updated successfully", task: taskList[index] });
+});
+
+// delete task list
+
+app.delete("/DeleteTask/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const index = taskList.findIndex((t) => t.id === id);
+
+  if (index === -1) {
+    return res.status(404);
+  }
+
+  taskList.splice(index, 1);
+
+  res.status(200).json({ message: "task deleted successfully" });
+});
+
+// undefined route handling
 
 app.use((req, res, next) => {
-
-  next(new HttpError("Route not found", 404));
-
+  next(new HttpError("requested route not found", 404));
 });
 
 // centralize error handling
 
-app.use((error,req,res,next) => {
+app.use((error, req, res, next) => {
+  if (req.headersSent) {
+    next(error);
+  }
 
-    res.status(error.statuscode || 500).json({
-        message:error.message || "Internal Server Error"
-    });
-
+  res.status(error.statusCode || 500).json({
+    message: error.message || "internal server error please try again later",
+  });
 });
 
-// server
-
-const port=5000;
+const port = 5000;
 
 app.listen(port, () => {
-  console.log("server listening on port", port);
+  console.log("server running on port", port);
 });
-
