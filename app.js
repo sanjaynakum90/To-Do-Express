@@ -1,5 +1,5 @@
 import express from "express";
-import HttpError from "./middleware/HttpError.js";
+import HttpError from "./middleware/httpError.js";
 
 const app = express();
 
