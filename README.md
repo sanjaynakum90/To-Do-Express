@@ -50,23 +50,23 @@ todo-api/<br>
 
 **Home Route**  
 
-<!-- <img src="screenshots/home-route.png" alt="Home Route" width="700" /> -->
+<img width="1902" height="954" alt="Screenshot 2026-02-23 151006" src="https://github.com/user-attachments/assets/59afb24f-7180-4481-9c1f-28a8ed85e9c8" />
 
 **Undefined Route Handling** 
 
-<!-- <img src="screenshots/undefined-route.png" alt="Undefined Route" width="700" /> -->
+<img width="1915" height="911" alt="Screenshot 2026-02-23 151431" src="https://github.com/user-attachments/assets/124f3175-a644-4adf-b9ac-4f3a1748d223" />
 
 **Get All Todos**  
 
-<!-- <img src="screenshots/get-all-todos.png" alt="Get All Todos" width="700" /> -->
+<img width="1919" height="910" alt="Screenshot 2026-02-23 151458" src="https://github.com/user-attachments/assets/07fa3d31-26fb-4403-b819-b72e3af6e7e4" />
 
 **Get Todo by ID**
 
-<!-- <img src="screenshots/get-todo-by-id.png" alt="Get Todo by ID" width="700" /> -->
+<img width="1919" height="922" alt="Screenshot 2026-02-23 151529" src="https://github.com/user-attachments/assets/561b2dc0-4760-46b4-b8d0-de90211d0563" />
 
 **Create Todo** 
 
-<!-- <img src="screenshots/create.png" alt="Create Todo" width="700" /> -->
+<img width="1913" height="907" alt="Screenshot 2026-02-23 151555" src="https://github.com/user-attachments/assets/6ff3a2e0-2caa-408d-abed-2936be61d40a" />
 
 **Update Todo (PATCH)** 
 
@@ -74,11 +74,11 @@ todo-api/<br>
 
 **Update Todo (PUT)** 
 
-<!-- <img src="screenshots/update-todo-put.png" alt="Update Todo PUT" width="700" /> -->
+<img width="1919" height="918" alt="Screenshot 2026-02-23 151806" src="https://github.com/user-attachments/assets/d0aad277-dfc1-4445-bc61-239c4ef7a570" />
 
 **Delete Todo**  
 
-<!-- <img src="screenshots/delete-todo.png" alt="Delete Todo" width="700" /> -->
+<img width="1909" height="941" alt="Screenshot 2026-02-23 151619" src="https://github.com/user-attachments/assets/49015858-6900-45a0-a7d5-bf98d519512c" />
 
 ---
 
