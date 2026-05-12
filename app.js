@@ -1,5 +1,5 @@
 import express from "express";
-import HttpError from "./middleware/httpError.js";
+import httpError from "./middleware/httpError.js";
 
 const app = express();
 
@@ -128,7 +128,7 @@ app.delete("/DeleteTask/:id", (req, res) => {
 // undefined route handling
 
 app.use((req, res, next) => {
-  next(new HttpError("requested route not found", 404));
+  next(new httpError("requested route not found", 404));
 });
 
 // centralize error handling
